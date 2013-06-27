@@ -4,6 +4,11 @@
 import MySQLdb, sys
 
 
+host = raw_input('Введите имя/адрес сервера БД: ')
+user = raw_input('Введите имя пользователя для доступа к базе: ')
+passwd = raw_input('Введите пароль: ')
+db = raw_input('Введите имя БД: ')
+
 """#1#
 Извлекаем имена таблиц и информацию по полям в них
 [u'virtual_fs_preferences', (u'virtual_fs_id', u'bigint(20)', u'NO', u'MUL', None, u''), 
