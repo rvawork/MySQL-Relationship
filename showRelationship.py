@@ -4,11 +4,6 @@
 import MySQLdb, sys
 
 
-host = raw_input('Введите имя/адрес сервера БД: ')
-user = raw_input('Введите имя пользователя для доступа к базе: ')
-passwd = raw_input('Введите пароль: ')
-db = raw_input('Введите имя БД: ')
-
 """#1#
 Извлекаем имена таблиц и информацию по полям в них
 [u'virtual_fs_preferences', (u'virtual_fs_id', u'bigint(20)', u'NO', u'MUL', None, u''), 
@@ -92,10 +87,10 @@ L = len(r2)
 while i != L:
 	for T in r2[i][0]:
 		if i == 0:
-			Join += """%s AS T0""" % (T.split(',')[0])
-			T0_id = T
-	else:
-		Join += """ JOIN %s ON %s = %s""" % (T.split(',')[0], T0_id, T)
+			T0_id = 'T0.'+T.split('.')[1]
+			Join += """%s AS T0""" % (T.split('.')[0])
+		else:
+			Join += """ JOIN %s AS T%s ON %s = T%s.%s""" % (T.split('.')[0], i, T0_id, i,T.split('.')[1])
 
 	for T in r2[i][1]:
 		Columns += """ T%s.%s,""" % (i, T)
@@ -106,4 +101,6 @@ while i != L:
 
 S = """'SELECT %s FROM %s %s;'""" % (Columns[:-1], Join, Where)
 print(S)
+
+print(len(Join.split('JOIN')))
 
